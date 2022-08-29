@@ -1,10 +1,19 @@
+using MedicationManagement.DataAccess.DataContext;
+using MedicationManagement.DataAccess.Repository.IRepository;
+using MedicationManagement.DataAccess.Repository;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-Console.WriteLine("Test pushs");
-Console.WriteLine("Test two");
 
+//add db context
+builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(
+    builder.Configuration.GetConnectionString("DefaultConnection")
+    ));
+
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
