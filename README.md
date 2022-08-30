@@ -13,3 +13,8 @@ The base route for the API is /api/medication, Medication being the controller i
 ## Create New Medication
 
 /api/medication - Write an HTTP POST message in which the body contains a Name and a Quantity within the valid range (1 - Int32.Max). The CreationDate and Id are automatically assigned after a successful post.
+
+## Delete Medication
+
+/api/medication/{id} - Write an HTTP DELETE message with the respective id of the medication you would like to remove from the current list.
+
