@@ -4,7 +4,7 @@
 
 This project uses MS SQL as the database to store all medication information. Please set that up if you would like to run things in the same environment as the project was developed. You can modify the connection string in appsettings.json under ConnectionStrings->DefaultConnection.
 
-The base route for the API is /api/medication, Medication being the controller in question, in this case.
+The base route for the API is /api/medication, Medication being the controller in question in this case.
 
 ## Get All Medication
 
