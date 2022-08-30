@@ -9,9 +9,9 @@ namespace MedicationManagement.DataAccess.Repository.IRepository
 {
     public interface IRepository<T> where T:class
     {
-        T GetFirstOrDefault(Expression<Func<T, bool>> filter);
-        IEnumerable<T> GetAll(Expression<Func<T, bool>>? filter = null);
-        void Add(T entity);
+        Task<T> GetFirstOrDefault(Expression<Func<T, bool>> filter);
+        Task<IEnumerable<T>> GetAll(Expression<Func<T, bool>>? filter = null);
+        Task<T> Add(T entity);
         void Remove(T entity);
         void RemoveRange(IEnumerable<T> entities);
     }

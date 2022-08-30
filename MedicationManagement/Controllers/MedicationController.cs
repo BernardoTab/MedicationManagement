@@ -17,35 +17,70 @@ namespace MedicationManagement.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            var medication = _unitOfWork.MedicationRepository.GetAll();
+            try
+            {
+                var medicationList = await _unitOfWork.MedicationRepository.GetAll();
 
-            return Json(new { data = medication });
+                return Ok(medicationList);
+            }
+            catch(Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving data from the database");
+            }
+            
         }
 
         [HttpPost]
-        public IActionResult PostMedication()
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateMedication(Medication medication)
         {
-            var medication = _unitOfWork.MedicationRepository.GetAll();
+            try
+            {
+                if (medication == null) return BadRequest(); //null request
 
-            return Json(new { data = medication });
+                var medicationAlreadyInDB = await _unitOfWork.MedicationRepository.GetFirstOrDefault(u => u.Name == medication.Name);
+
+                if (medicationAlreadyInDB != null)
+                {
+                    ModelState.AddModelError("Name", "Medication with that name already exists");
+                    return BadRequest(ModelState); //medication already exists
+                }
+
+                medication.CreationDate = DateTime.Now; //Set the creation time to now
+                var createdMedication = await _unitOfWork.MedicationRepository.Add(medication);
+                _unitOfWork.Save();
+
+                return CreatedAtAction(nameof(Medication),
+                    new { id = createdMedication.Id }, createdMedication);
+            }
+            catch(Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error when creating new medication");
+            }
         }
 
-        [HttpDelete]
-        public IActionResult DeleteMedication(int id)
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> DeleteMedication(int id)
         {
-            var medication = _unitOfWork.MedicationRepository.GetFirstOrDefault(u => u.Id == id);
-            if(medication != null)
+            try
             {
-                _unitOfWork.MedicationRepository.Remove(medication);
+                var medicationToDelete = await _unitOfWork.MedicationRepository.GetFirstOrDefault(u => u.Id == id);
+
+                if(medicationToDelete == null) return NotFound($"Medication with id = {id} was not found");
+
+                _unitOfWork.MedicationRepository.Remove(medicationToDelete);
                 _unitOfWork.Save();
-                return Json(new { success = true, message = "Medication removed successfully!" });
+                return Ok($"Medication with id={id} was deleted");
+                
             }
-            else
+            catch (Exception)
             {
-                return Json(new { success = false, message = "Cannot remove medication as it does not exist in the database" });
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error when attempting to delete medication");
+
             }
+            
         }
     }
 }
