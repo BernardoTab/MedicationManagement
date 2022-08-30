@@ -33,7 +33,6 @@ namespace MedicationManagement.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateMedication(Medication medication)
         {
             try
