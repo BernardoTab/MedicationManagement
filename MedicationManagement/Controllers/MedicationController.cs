@@ -27,7 +27,7 @@ namespace MedicationManagement.Controllers
             }
             catch(Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, $"Error retrieving data from the database - {ex.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error retrieving data from the database - {ex}");
             }
             
         }
@@ -56,7 +56,7 @@ namespace MedicationManagement.Controllers
             }
             catch(Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, $"Error when creating new medication - {ex.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error when creating new medication - {ex}");
             }
         }
 
@@ -76,7 +76,7 @@ namespace MedicationManagement.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, $"Error when attempting to delete medication - {ex.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error when attempting to delete medication - {ex}");
 
             }
             
