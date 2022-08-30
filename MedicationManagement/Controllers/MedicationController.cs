@@ -25,9 +25,9 @@ namespace MedicationManagement.Controllers
 
                 return Ok(medicationList);
             }
-            catch(Exception)
+            catch(Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving data from the database");
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error retrieving data from the database - {ex.Message}");
             }
             
         }
@@ -54,9 +54,9 @@ namespace MedicationManagement.Controllers
                 return CreatedAtAction(nameof(Medication),
                     new { id = createdMedication.Id }, createdMedication);
             }
-            catch(Exception)
+            catch(Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Error when creating new medication");
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error when creating new medication - {ex.Message}");
             }
         }
 
@@ -74,9 +74,9 @@ namespace MedicationManagement.Controllers
                 return Ok($"Medication with id={id} was deleted");
                 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Error when attempting to delete medication");
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error when attempting to delete medication - {ex.Message}");
 
             }
             
