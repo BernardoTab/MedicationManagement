@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using MedicationManagement.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,5 +16,8 @@ namespace MedicationManagement.DataAccess.DataContext
         {
 
         }
+
+
+        public DbSet<Medication> Medication { get; set; }
     }
 }

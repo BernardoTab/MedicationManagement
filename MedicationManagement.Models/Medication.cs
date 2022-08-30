@@ -11,9 +11,9 @@ namespace MedicationManagement.Models
         public string Name { get; set; }
 
         [Required]
-        public uint Quantity { get; set; }
+        [Range(1,Int32.MaxValue)]
+        public int Quantity { get; set; }
 
-        [Required]
         public DateTime CreationDate { get; set; }
 
     }
